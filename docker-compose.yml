@@ -2,8 +2,9 @@ version: "3"
 
 services:
   ruuvilogger:
-    build: .
-    container_name: lepinkainen/ruuvilogger
+    image: lepinkainen/ruuvilogger
+    container_name: ruuvilogger
+    env_file: .env
     privileged: true
     restart: always
     network_mode: host
