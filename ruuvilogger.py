@@ -5,6 +5,7 @@ from paho.mqtt.publish import multiple
 import json
 import os
 import pendulum
+import sys
 
 DB_NAME = "homeautomation"
 device_id = os.getenv("DEVICE_ID")
@@ -65,8 +66,6 @@ class RuuviLogger(RuuviDaemon):
         }
         tag.movement_detected.clear()
 
-        print(tag_as_dict)
-
         self.influx.write_points(
             [
                 {
@@ -92,6 +91,10 @@ if __name__ == "__main__":
     import time
 
     print("Connecting to %s with user %s" % (INFLUX_HOST, INFLUX_USER))
+
+    if INFLUX_HOST is None:
+        print("Influx host not defined, quitting")
+        sys.exit(1)
 
     ruuvilogger = RuuviLogger()
     ruuvilogger.start()
